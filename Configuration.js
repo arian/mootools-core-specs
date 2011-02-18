@@ -21,7 +21,11 @@ Configuration.presets = {
 		sets: ['1.2', 'core-1.3-base', 'core-1.3-client'],
 		source: ['core-1.3-base', 'core-1.3-client']
 	},
-	'core-2.0': {
+	'core-2.0-base': {
+		sets: ['core-2.0-base'],
+		source: ['core-2.0-base']
+	},
+	'core-2.0-client': {
 		sets: ['core-2.0-base', 'core-2.0-client'],
 		source: ['core-2.0-base', 'core-2.0-client']
 	}
@@ -86,6 +90,8 @@ Configuration.sets = {
 			'Types/Number',
 			'Types/String',
 			'Types/Object',
+
+			'Class/Events'
 		]
 	},
 
@@ -203,7 +209,9 @@ Configuration.source = {
 			'Utilities/Color',
 			'Utilities/Table',
 			'Utilities/JSON',
-			
+
+			'Slick/Slick.Parser',
+
 			'Class/Class',
 			'Class/Chain',
 			'Class/Events',
