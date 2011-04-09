@@ -164,6 +164,24 @@ describe('Array.invoke', function(){
 
 });
 
+describe('Array.run', function(){
+
+	it('should run the funtions in the array', function(){
+
+		var count = 0,
+			fn1 = function(){ count++ },
+			fn2 = function(i){ count += i; },
+			fn3 = function(i, j){ count += (i + j); },
+			fn4 = function(){ count += +this; };
+
+		[fn1, fn2, fn3, fn4].run(4, [3, 2]);
+
+		expect(count).toEqual(13);
+
+	});
+
+});
+
 describe('Array.append', function(){
 
 	it('should append to an array', function(){

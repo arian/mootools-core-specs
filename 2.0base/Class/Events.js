@@ -173,15 +173,15 @@ describe('Events', function(){
 		});
 
 		it('should call the onListen function', function(){
-			var events = new Events;
-			events.listen('moo:test', function(){});
-			expect(onListen).toHaveBeenCalledWith('moo:test');
+			var events = new Events, fn = function(type){};
+			events.listen('moo:test', fn);
+			expect(onListen.mostRecentCall.args[0]).toEqual('moo');
 		});
 
 		it('should call the onIgnore function', function(){
-			var events = new Events;
-			events.listen('ignore:test', function(){}).ignore('ignore');
-			expect(onIgnore).toHaveBeenCalledWith('ignore:test');
+			var events = new Events, fn = function(){}
+			events.listen('ignore:test', fn).ignore('ignore');
+			expect(onIgnore.mostRecentCall.args[0]).toEqual('ignore');
 		});
 
 	});

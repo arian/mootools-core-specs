@@ -230,11 +230,9 @@ Configuration.source = {
 			'Slick/Slick.Parser',
 			'Slick/Slick.Finder',
 
-			'Element/Element',
-			
-			'Browser/Event',
-			
-			'Element/Element.Style',
+			'DOM/Element',
+			'DOM/Event',
+			'DOM/Styles',
 
 			'Utilities/DOMReady',
 
