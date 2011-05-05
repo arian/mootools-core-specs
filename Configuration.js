@@ -92,7 +92,8 @@ Configuration.sets = {
 	'core-2.0-client': {
 		path: '2.0client/',
 		files: [
-			'Browser/Browser'
+			'Browser/Browser',
+			'DOM/Element'
 		]
 	}
 };
@@ -221,14 +222,15 @@ Configuration.source = {
 			
 			'Slick/Slick.Parser',
 			'Slick/Slick.Finder',
-
-			'Element/Element',
 			
-			'Browser/Event',
-			
-			'Element/Element.Style',
+			'DOM/DOM',
+			'DOM/Element',
+			'DOM/Slick.Adapter',
+			'DOM/Element.Style',
+			'DOM/Event',
 
-			'Utilities/DOMReady',
+
+//			'Utilities/DOMReady',
 
 			'Fx/Fx.Morph',
 
