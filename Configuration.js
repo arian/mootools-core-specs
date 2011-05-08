@@ -222,8 +222,7 @@ Configuration.source = {
 			
 			'Slick/Slick.Parser',
 			'Slick/Slick.Finder',
-			
-			'DOM/DOM',
+
 			'DOM/Element',
 			'DOM/Slick.Adapter',
 			'DOM/Element.Style',

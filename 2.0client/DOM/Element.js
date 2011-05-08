@@ -952,9 +952,291 @@ describe('DOM.Element', function(){
 
 	});
 
+	describe('Selectors', function(){
+
+
+		describe('find', function(){
+
+			var Container;
+
+			beforeEach(function(){
+				Container = new DOM.Element('div');
+				Container.node.innerHTML = '<div id="first"></div><div id="second"></div><p></p><a></a>';
+			});
+
+			it('should return the first Element to match the tag, otherwise null', function(){
+				var child = Container.find('div');
+				expect(child.node.id).toEqual('first');
+				expect(Container.find('iframe')).toBeNull();
+			});
+
+		});
+
+		describe('search', function(){
+
+			var Container;
+
+			beforeEach(function(){
+				Container = new DOM.Element('div');
+				Container.node.innerHTML = '<div id="first"></div><div id="second"></div><p></p><a></a>';
+			});
+
+			it('should return all the elements that match the tag', function(){
+				var children = Container.search('div');
+				expect(children.length).toEqual(2);
+			});
+
+			it('should return all the elements that match the tags', function(){
+				var children = Container.search('div,a');
+				expect(children.length).toEqual(3);
+				expect(children[2].toNode().tagName.toLowerCase()).toEqual('a');
+			});
+
+		});
+
+		describe('DOM.Document.find', function(){
+
+			it('should return the first Element to match the tag, otherwise null', function(){
+				var div = DOM.document.find('div');
+				var ndiv = document.getElementsByTagName('div')[0];
+				expect(div.node).toEqual(ndiv);
+
+				var notfound = DOM.document.find('canvas');
+				expect(notfound).toBeNull();
+			});
+
+		});
+
+		describe('DOM.Document.seach', function(){
+
+			it('should return all the elements that match the tag', function(){
+				var divs = DOM.document.search('div');
+				var ndivs = new DOM.Elements(document.getElementsByTagName('div'));
+				expect(divs).toEqual(ndivs);
+			});
+
+			it('should return all the elements that match the tags', function(){
+				var headers = DOM.document.search('h3,h4');
+				var headers2 = new DOM.Elements(Array.flatten([document.getElementsByTagName('h3'), document.getElementsByTagName('h4')]));
+				expect(headers.length).toEqual(headers2.length);
+			});
+
+		});
+
+
+	});
+
 });
 
 describe('DOM.Elements', function(){
+
+	var elements, id;
+	beforeEach(function(){
+		id = new DOM.Element('em#DOMElementsID.ems').inject(document.body);
+		var a = document.createElement('a');
+		a.className = 'as';
+		els = [
+			new DOM.Element('div.divs'),
+			a,
+			'DOMElementsID',
+			id, // only uniques
+			'___aeawer_jibberish'
+		];
+		elements = new DOM.Elements(els);
+	});
+
+	afterEach(function(){
+		id.eject();
+	});
+
+	it('should create a new DOM.Elements collection with unique elements', function(){
+		expect(elements.length).toEqual(3);
+		expect(elements[0]).toEqual(els[0]);
+		expect(elements[2]).toEqual(id);
+	});
+
+	it('should only contain DOM.Element instances', function(){
+		for (var i = elements.length; i--;){
+			expect(instanceOf(elements[i], DOM.Element)).toEqual(true);
+		}
+	});
+
+	it('should be an instance of Array', function(){
+		expect(instanceOf(elements, Array)).toEqual(true);
+	});
+
+	it('should have implemented all Array methods', function(){
+		var someArrayMethods = ['each', 'every', 'indexOf', 'lastIndexOf'];
+		for (var i = someArrayMethods.length; i--;){
+			var method = someArrayMethods[i];
+			expect(DOM.Elements.prototype[method]).toEqual(Array.prototype[method]);
+		}
+	});
+
+	it('should give precedence to Array over Element', function(){
+		expect(DOM.Elements.prototype.contains).toEqual(Array.prototype.contains);
+	});
+
+	describe('filter', function(){
+
+		it('should filter the elements with a function', function(){
+			expect(elements.filter(function(value, key){
+				return key > 1;
+			})).toEqual(new DOM.Elements(els.slice(2)));
+		});
+
+		it('shoud filter the elements with a CSS selector', function(){
+			expect(elements.filter('div,a')).toEqual(new DOM.Elements([elements[0], elements[1]]));
+		});
+
+	});
+
+	describe('push', function(){
+
+		it('should push a new element to the elements and return the new length', function(){
+			var div = new DOM.Element('div');
+			expect(elements.push(div)).toEqual(4);
+			expect(elements.length).toEqual(4);
+			expect(elements[3]).toEqual(div);
+		});
+
+		it('should push a new element by ID', function(){
+			var div = new DOM.Element('div#pushID').inject(document.body);
+			elements.push('pushID');
+			expect(elements.length).toEqual(4);
+			expect(elements[3]).toEqual(div);
+			div.eject();
+		});
+
+		it('should only push elements in the collection', function(){
+			elements.push(['clearly not an element']);
+			expect(elements.length).toEqual(3);
+		});
+
+		it('can push multiple aguments', function(){
+			var div1 = new DOM.Element('div');
+			var div2 = new DOM.Element('div');
+			elements.push(div1, div2);
+			expect(elements.length).toEqual(5);
+			expect(elements[3]).toEqual(div1);
+			expect(elements[4]).toEqual(div2);
+		});
+
+	});
+
+	describe('unshift', function(){
+
+		it('should unshift a new element to the elements', function(){
+			var div = new DOM.Element('div');
+			expect(elements.unshift(div)).toEqual(4);
+			expect(elements.length).toEqual(4);
+			expect(elements[0]).toEqual(div);
+		});
+
+		it('should unshift a new element by ID', function(){
+			var div = new DOM.Element('div#pushID').inject(document.body);
+			elements.unshift('pushID');
+			expect(elements.length).toEqual(4);
+			expect(elements[0]).toEqual(div);
+			div.eject();
+		});
+
+		it('should only unshift elements in the collection', function(){
+			elements.unshift(['clearly not an element']);
+			expect(elements.length).toEqual(3);
+		});
+
+		it('can unshift multiple aguments', function(){
+			var div1 = new DOM.Element('div');
+			var div2 = new DOM.Element('div');
+			elements.unshift(div1, div2);
+			expect(elements.length).toEqual(5);
+			expect(elements[0]).toEqual(div1);
+			expect(elements[1]).toEqual(div2);
+		});
+
+	});
+
+	describe('concat', function(){
+
+		it('should concat other values (array, DOM.Elements and DOM.Element) into a new DOM.Elements', function(){
+			var div1 = new DOM.Element('div');
+			var div2 = new DOM.Element('div');
+			var div3 = new DOM.Element('div');
+			var div4 = new DOM.Element('div');
+
+			var result = elements.concat([div1, div2], new DOM.Elements([div3]), div4);
+
+			expect(elements.length).toEqual(3);
+
+			expect(result.length).toEqual(7);
+			expect([result[3], result[4], result[5], result[6]]).toEqual([div1, div2, div3, div4]);
+		});
+		
+	});
+
+	describe('append', function(){
+		it('should append another collection', function(){
+			var elements2 = new DOM.Elements([
+				new DOM.Element('div'),
+				new DOM.Element('div'),
+				new DOM.Element('div'),
+				new DOM.Element('div')
+			]);
+			elements.append(elements2);
+			expect(elements.length).toEqual(7);
+			expect([elements[3], elements[4], elements[5], elements[6]]).toEqual([elements2[0], elements2[1], elements2[2], elements2[3]]);
+		});
+	});
+
+	describe('empty', function(){
+		it('should empty the DOM.Elements', function(){
+			elements.empty();
+			expect(elements.length).toEqual(0);
+			expect(elements[0]).toBeUndefined();
+			expect(elements[1]).toBeUndefined();
+			expect(elements[2]).toBeUndefined();
+		});
+	});
+
+	describe('map', function(){
+		// TODO: what should elements.map return, I assume an DOM.Elements instance…
+	});
+
+	describe('log', function(){
+		it('should return an array with the nodes', function(){
+			var logged = elements.log();
+			expect(typeOf(logged)).toEqual('array');
+			expect(logged.length).toEqual(3);
+			logged.each(function(element){
+				expect(typeOf(element)).toEqual('element');
+			});
+		});
+
+	});
+
+	describe('splice', function(){
+		it('should splice the collection', function(){
+			var el0 = elements[0], el1 = elements[1], el2 = elements[2];
+			var result = elements.splice(1, 2);
+			expect([result[0], result[1]]).toEqual([el1, el2]);
+			expect(elements.length).toEqual(1);
+			expect(elements[0]).toEqual(el0);
+		});
+	});
+
+	describe('Element methods', function(){
+
+		it('should return an array with the values for get', function(){
+			expect(elements.get('class')).toEqual(['divs', 'as', 'ems']);
+		});
+
+		it('should return the Elements instance when the method returns the element', function(){
+			var res = elements.set('class', 'yoo');
+			expect(res).toEqual(elements);
+		});
+
+	});
 
 });
 
@@ -977,6 +1259,68 @@ describe('DOM.id', function(){
 		expect(found.get('id')).toBe('id#part');
 	});
 
+	it('should return an extended Element by string id', function(){
+		var Container = document.createElement('div');
+		Container.innerHTML = '<div id="dollar"></div>';
+		document.body.appendChild(Container);
+
+
+		var dollar1 = new DOM.Element(document.getElementById('dollar'));
+		var dollar2 = DOM.id('dollar');
+
+		expect(dollar1).toEqual(dollar2);
+		expect(instanceOf(dollar2, DOM.Element)).toEqual(true);
+
+		document.body.removeChild(Container);
+	});
+
+	it('should return the window if passed', function(){
+		var win = DOM.id(window);
+		expect(win == DOM.window).toBeTruthy();
+	});
+
+	it('should return the document if passed', function(){
+		expect(DOM.id(document)).toEqual(DOM.document);
+	});
+
+	it('should return null if string not found or type mismatch', function(){
+		expect(DOM.id(1)).toBeNull();
+		expect(DOM.id('nonexistant')).toBeNull();
+	});
+
+	it('should return the extended element when a native dom element is passed', function(){
+		var a = document.createElement('a');
+		var b = DOM.id(a);
+		expect(b.node).toEqual(a);
+	});
+
 });
 
+describe('DOM.find', function(){
 
+
+});
+
+describe('DOM.search', function(){
+
+	it('should return all Elements of a specific tag', function(){
+		var divs1 = DOM.search('div');
+		var divs2 = new DOM.Elements(Array.from(document.getElementsByTagName('div')));
+		expect(divs1).toEqual(divs2);
+	});
+
+	it('should return multiple Elements for each specific tag', function(){
+		var sortBy = function(a, b){
+			a = DOM.uidOf(a); b = DOM.uidOf(b);
+			return a > b ? 1 : -1;
+		};
+		var headers1 = DOM.search('h3,h4').sort(sortBy);
+		var headers2 = new DOM.Elements(Array.flatten([document.getElementsByTagName('h3'), document.getElementsByTagName('h4')])).sort(sortBy);
+		expect(headers1).toEqual(headers2);
+	});
+
+	it('should return an empty DOM.Elements instance if none is found', function(){
+		expect(DOM.search('not_found')).toEqual(new DOM.Elements());
+	});
+
+});
