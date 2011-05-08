@@ -446,6 +446,17 @@ describe('Object.forEach', function(){
 		expect(items).toEqual({b: 2});
 	});
 
+	it('should also work when hasOwnProperty is null', function(){
+		var values = [], keys = [];
+		var obj = {hasOwnProperty: null, value: 1, second: 2};
+		Object.forEach(obj, function(value, key){
+			values.push(value);
+			keys.push(key);
+		});
+		expect(values).toEqual([null, 1, 2]);
+		expect(keys).toEqual(['hasOwnProperty', 'value', 'second']);
+	});
+
 });
 
 describe('Object.each', function(){
@@ -466,7 +477,7 @@ describe('Array.forEach', function(){
 	it('should call the function for each item in Function arguments', function(){
 		var daysArr = [];
 		(function(){
-			Array.forEach(Array.from(arguments), function(value, key){
+			Array.forEach(arguments, function(value, key){
 				daysArr[key] = value;
 			});
 		})('Sun','Mon','Tue');
@@ -504,6 +515,17 @@ describe('Array.each', function(){
 		var array = [];
 		array.each(function(){}).push(1, 2);
 		expect(array).toEqual([1, 2]);
+	});
+
+	it('should call the function for each item in Function arguments', function(){
+		var daysArr = [];
+		(function(){
+			Array.each(arguments, function(value, key){
+				daysArr[key] = value;
+			});
+		})('Sun','Mon','Tue');
+
+		expect(daysArr).toEqual(['Sun','Mon','Tue']);
 	});
 	
 });
