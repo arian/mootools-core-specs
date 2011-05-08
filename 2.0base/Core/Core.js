@@ -358,7 +358,25 @@ describe('Type', function(){
 
 		expect(new Car('nice car').drive()).toEqual('driving a nice car');
 	});
-	
+
+	it('should mirror methods from one type into another on implement', function(){
+		Car.mirror(Instrument);
+		var x = function(){ return 'some value'; };
+		Car.implement('mirroredMethod', x);
+		expect(Instrument.prototype.mirroredMethod).toEqual(x);
+		expect(new Instrument('drumkit').mirroredMethod()).toEqual('some value');
+	});
+
+	it("should call the mirror hook when it's a function", function(){
+		var mKey, mValue;
+		Car.mirror(function(key, value){
+			mKey = key;
+			mValue = value;
+		}).implement('key', 'value');
+		expect(mKey).toEqual('key');
+		expect(mValue).toEqual('value');
+	});
+
 	it("isEnumerable method on Type should return true for arrays, arguments, strings, objects with a numerical length property", function(){
 		expect(Type.isEnumerable([1,2,3])).toBeTruthy();
 		(function(){
@@ -373,7 +391,7 @@ describe('Type', function(){
 		expect(Type.isEnumerable(5)).toBeFalsy();
 	});
 
-	it('sould chain any function on a type', function(){
+	it('should chain any function on a type', function(){
 		var MyType = new Type('MyType', function(){}.implement({
 			a: function(){}
 		}));
