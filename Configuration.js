@@ -97,12 +97,12 @@ Configuration.sets = {
 		path: '2.0base/',
 		files: [
 			'Core/Core',
-
-			'Types/Array',
-			'Types/Function',
-			'Types/Number',
-			'Types/String',
-			'Types/Object',
+			'Utility/Function',
+			//'Types/Array',
+			//'Types/Function',
+			//'Types/Number',
+			//'Types/String',
+			//'Types/Object',
 		]
 	},
 
