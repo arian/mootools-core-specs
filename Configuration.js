@@ -102,8 +102,8 @@ Configuration.sets = {
 			'Utility/Object',
 			'Host/Array',
 			'Host/Date',
-			'Utility/uniqueID'
-			//'Types/Array',
+			'Utility/uniqueID',
+			'Utility/Array'
 			//'Types/Function',
 			//'Types/Number',
 			//'Types/String',
