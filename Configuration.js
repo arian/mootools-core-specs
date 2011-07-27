@@ -98,6 +98,11 @@ Configuration.sets = {
 		files: [
 			'Core/Core',
 			'Utility/Function',
+			'Utility/typeOf',
+			'Utility/Object',
+			'Host/Array',
+			'Host/Date',
+			'Utility/uniqueID'
 			//'Types/Array',
 			//'Types/Function',
 			//'Types/Number',

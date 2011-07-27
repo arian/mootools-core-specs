@@ -1,4 +1,4 @@
-define(['Core/Utility/Function'], function(Utility){
+define(['Core/Utility/Function'], function(Function){
 
 	describe('Function.overloadSetter', function(){
 

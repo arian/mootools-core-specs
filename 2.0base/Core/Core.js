@@ -25,58 +25,6 @@ describe('Function.prototype.implement', function(){
 	
 });
 
-describe('typeOf', function(){
-
-	it("should return 'array' for Array objects", function(){
-		expect(typeOf([1,2])).toEqual('array');
-	});
-
-	it("should return 'string' for String objects", function(){
-		expect(typeOf('ciao')).toEqual('string');
-	});
-
-	it("should return 'regexp' for RegExp objects", function(){
-		expect(typeOf(/_/)).toEqual('regexp');
-	});
-
-	it("should return 'function' for Function objects", function(){
-		expect(typeOf(function(){})).toEqual('function');
-	});
-
-	it("should return 'number' for Number objects", function(){
-		expect(typeOf(10)).toEqual('number');
-		expect(typeOf(NaN)).not.toEqual('number');
-	});
-
-	it("should return 'boolean' for Boolean objects", function(){
-		expect(typeOf(true)).toEqual('boolean');
-		expect(typeOf(false)).toEqual('boolean');
-	});
-
-	it("should return 'object' for Object objects", function(){
-		expect(typeOf({a:2})).toEqual('object');
-	});
-
-	it("should return 'arguments' for Function arguments", function(){
-		if (typeof window != 'undefined' && window.opera){ // Seems like the Opera guys can't decide on this
-			var type = $type(arguments);
-			expect(type == 'array' || type == 'arguments').toBeTruthy();
-			return;
-		}
-		
-		expect(typeOf(arguments)).toEqual('arguments');
-	});
-
-	it("should return 'null' for null objects", function(){
-		expect(typeOf(null)).toEqual('null');
-	});
-
-	it("should return 'null' for undefined objects", function(){
-		expect(typeOf(undefined)).toEqual('null');
-	});
-
-});
-
 describe('instanceOf', function(){
 	
 	it("should return false on null object", function(){
@@ -292,34 +240,6 @@ describe('Type', function(){
 
 });
 
-describe('Object.forEach', function(){
-
-	it('should call the function for each item in the object', function(){
-		var daysObj = {};
-		Object.forEach({first: "Sunday", second: "Monday", third: "Tuesday"}, function(value, key){
-			daysObj[key] = value;
-		});
-
-		expect(daysObj).toEqual({first: 'Sunday', second: 'Monday', third: 'Tuesday'});
-	});
-
-	it('should ignore the prototype chain', function(){
-		var fn = function(){};
-		fn.prototype = {a: 1};
-
-		var object = new fn;
-		object.b = 2;
-
-		var items = {};
-		Object.forEach(object, function(value, key){
-			items[key] = value;
-		});
-
-		expect(items).toEqual({b: 2});
-	});
-
-});
-
 describe('Object.each', function(){
 
 	it('should call the function for each item in the object', function(){
@@ -329,43 +249,6 @@ describe('Object.each', function(){
 		});
 
 		expect(daysObj).toEqual({first: 'Sunday', second: 'Monday', third: 'Tuesday'});
-	});
-
-});
-
-describe('Array.forEach', function(){
-
-	it('should call the function for each item in Function arguments', function(){
-		var daysArr = [];
-		(function(){
-			Array.forEach(Array.from(arguments), function(value, key){
-				daysArr[key] = value;
-			});
-		})('Sun','Mon','Tue');
-
-		expect(daysArr).toEqual(['Sun','Mon','Tue']);
-	});
-
-	it('should call the function for each item in the array', function(){
-		var daysArr = [];
-		Array.forEach(['Sun','Mon','Tue'], function(value, i){
-			daysArr.push(value);
-		});
-
-		expect(daysArr).toEqual(['Sun','Mon','Tue']);
-	});
-
-	it('should not iterate over deleted elements', function(){
-		var array = [0, 1, 2, 3],
-			testArray = [];
-		delete array[1];
-		delete array[2];
-
-		array.forEach(function(value){
-			testArray.push(value);
-		});
-
-		expect(testArray).toEqual([0, 3]);
 	});
 
 });
@@ -437,26 +320,6 @@ describe('Object.merge', function(){
 		
 		expect(a.e === b.e).toBeFalsy();
 		expect(a.f === b.f).toBeFalsy();
-	});
-	
-});
-
-describe('Date.now', function(){
-
-	it('should return a timestamp', function(){
-		expect(Type.isNumber(Date.now())).toBeTruthy();
-	});
-
-});
-
-describe('String.uniqueID', function(){
-
-	it('should be a string', function(){
-		expect(typeof String.uniqueID()).toBe('string');
-	});
-
-	it("should generate unique ids", function(){
-		expect(String.uniqueID()).not.toEqual(String.uniqueID());
 	});
 	
 });
