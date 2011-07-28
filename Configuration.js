@@ -30,8 +30,8 @@ Configuration.presets = {
 		source: ['core-1.4-base', 'core-1.4-client']
 	},
 	'core-2.0': {
-		sets: ['core-2.0-base', 'core-2.0-client'],
-		source: ['core-2.0-base', 'core-2.0-client']
+		sets: ['core-2.0'],
+		source: []
 	},
 };
 
@@ -93,28 +93,19 @@ Configuration.sets = {
 		]
 	},
 
-	'core-2.0-base': {
-		path: '2.0base/',
+	'core-2.0': {
+		path: '2.0/',
 		files: [
 			'Core/Core',
-			'Utility/Function',
-			'Utility/typeOf',
-			'Utility/Object',
 			'Host/Array',
 			'Host/Date',
-			'Utility/uniqueID',
-			'Utility/Array'
-			//'Types/Function',
-			//'Types/Number',
-			//'Types/String',
-			//'Types/Object',
-		]
-	},
-
-	'core-2.0-client': {
-		path: '2.0client/',
-		files: [
-			'Browser/Browser'
+			'Host/Function',
+			'Utility/Array',
+			'Utility/Function',
+			'Utility/Object',
+			'Utility/String',
+			'Utility/typeOf',
+			'Utility/uniqueID'
 		]
 	}
 };
@@ -263,56 +254,6 @@ Configuration.source = {
 	'1.3mobile': {
 		path: './',
 		files: ['mootools-core-mobile']
-	},
-
-	'core-2.0-base': {
-		path: '../Source/',
-		files: [
-			'Core/Core',
-
-			'Types/Array',
-			'Types/Function',
-			'Types/Number',
-			'Types/String',
-			'Types/Object',
-
-			'Utilities/Accessor',
-			'Utilities/Color',
-			'Utilities/Table',
-			'Utilities/JSON',
-
-			'Class/Class',
-			'Class/Chain',
-			'Class/Events',
-			'Class/Options',
-			'Class/Store',
-
-			'Fx/Fx'
-		]
-	},
-
-	'core-2.0-client': {
-		path: '../Source/',
-		files: [
-			'Browser/Browser',
-
-			'Slick/Slick.Parser',
-			'Slick/Slick.Finder',
-
-			'Element/Element',
-
-			'Browser/Event',
-
-			'Element/Element.Style',
-
-			'Utilities/DOMReady',
-
-			'Fx/Fx.Morph',
-
-			'Request/Request',
-			'Request/Request.HTML',
-			'Request/Request.JSON'
-		]
 	}
 
 };
