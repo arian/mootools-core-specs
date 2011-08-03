@@ -5,6 +5,18 @@ License: MIT-style license.
 
 define(['Core/Utility/Object'], function(Object){
 
+	describe('Object.isEnumerable', function(){
+
+		it('isEnumerable method on Type should return true for arrays, arguments, objects with a numerical length property', function(){
+			expect(Object.isEnumerable([1, 2, 3])).toBeTruthy();
+			(function(){
+				expect(Object.isEnumerable(arguments)).toBeTruthy();
+			})(1, 2, 3);
+			expect(Object.isEnumerable({length: 2})).toBeTruthy();
+		});
+
+	});
+
 	describe('Object.forEach', function(){
 
 		it('should call the function for each item in the object', function(){

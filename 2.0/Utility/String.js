@@ -38,13 +38,8 @@ define(['Core/Utility/String'], function(String){
 			expect(String.contains('i,like,cookies', 'cookies', ',')).toBeTruthy();
 		});
 
-	});
-
-	describe('String.trim', function(){
-
-		it('should trim left and right whitespace from the string', function(){
-			expect(String.trim('  i like cookies  ')).toEqual('i like cookies');
-			expect(String.trim('  i  \tlike  cookies  ')).toEqual('i  \tlike  cookies');
+		it('should return true if the returned value of the toString method contains the string', function(){
+			expect(String.contains([1,2,3], ',2,')).toBeTruthy();
 		});
 
 	});
@@ -54,6 +49,12 @@ define(['Core/Utility/String'], function(String){
 		it('should clean all extraneous whitespace from the string', function(){
 			expect(String.clean('  i     like    cookies   ')).toEqual("i like cookies");
 			expect(String.clean('  i\nlike \n cookies \n\t  ')).toEqual("i like cookies");
+		});
+
+		it('should return the cleaned value of the returned value of the toString method', function(){
+			expect(String.clean({
+				toString: function(){ return '  i\nlike \n cookies \n\t  '; }
+			})).toEqual('i like cookies');
 		});
 
 	});
