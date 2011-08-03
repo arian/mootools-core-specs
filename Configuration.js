@@ -96,7 +96,7 @@ Configuration.sets = {
 	'core-2.0': {
 		path: '2.0/',
 		files: [
-			'Core/Core',
+			'Core/Class',
 			'Host/Array',
 			'Host/Date',
 			'Host/Function',
