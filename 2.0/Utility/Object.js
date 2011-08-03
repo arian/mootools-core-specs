@@ -125,7 +125,9 @@ define(['Core/Utility/Object'], function(Object){
 	describe('Object.map', function(){
 
 		it('should map a new object according to the comparator', function(){
-			expect(Object.map(object, Type.isNumber)).toEqual({
+			expect(Object.map(object, function(value){
+				return typeof value == 'number';
+			})).toEqual({
 				a: false,
 				b: true,
 				c: false
@@ -137,7 +139,9 @@ define(['Core/Utility/Object'], function(Object){
 	describe('Object.filter', function(){
 
 		it('should filter the object according to the comparator', function(){
-			expect(Object.filter(object, Type.isNumber)).toEqual({b:233});
+			expect(Object.filter(object, function(value){
+				return typeof value == 'number';
+			})).toEqual({b:233});
 		});
 
 	});
@@ -145,8 +149,12 @@ define(['Core/Utility/Object'], function(Object){
 	describe('Object.every', function(){
 
 		it('should return true if every value matches the comparator, otherwise false', function(){
-			expect(Object.every(object, typeOf)).toBeTruthy();
-			expect(Object.every(object, Type.isNumber)).toBeFalsy();
+			expect(Object.every(object, function(){
+				return true;
+			})).toEqual(true);
+			expect(Object.every(object, function(value){
+				return typeof value == 'number';
+			})).toEqual(false);
 		});
 
 	});
@@ -154,20 +162,12 @@ define(['Core/Utility/Object'], function(Object){
 	describe('Object.some', function(){
 
 		it('should return true if some of the values match the comparator, otherwise false', function(){
-			expect(Object.some(object, Type.isNumber)).toBeTruthy();
-			expect(Object.some(object, Type.isArray)).toBeFalsy();
-		});
-
-	});
-
-	describe('Object.keys', function(){
-
-		it('keys should return an empty array', function(){
-			expect(Object.keys({})).toEqual([]);
-		});
-
-		it('should return an array containing the keys of the object', function(){
-			expect(Object.keys(object)).toEqual(['a', 'b', 'c']);
+			expect(Object.some(object, function(value){
+				return typeof value == 'number';
+			})).toBeTruthy();
+			expect(Object.some(object, function(value){
+				return value.push;
+			})).toBeFalsy();
 		});
 
 	});

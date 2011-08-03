@@ -32,7 +32,7 @@ Configuration.presets = {
 	'core-2.0': {
 		sets: ['core-2.0'],
 		source: []
-	},
+	}
 };
 
 Configuration.defaultPresets = {
@@ -100,6 +100,7 @@ Configuration.sets = {
 			'Host/Array',
 			'Host/Date',
 			'Host/Function',
+			'Host/Object',
 			'Utility/Array',
 			'Utility/Function',
 			'Utility/Object',
