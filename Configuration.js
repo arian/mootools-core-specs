@@ -26,8 +26,12 @@ Configuration.presets = {
 		source: ['1.3mobile']
 	},
 	'core-1.4': {
-		sets: ['1.2', 'core-1.3-base', 'core-1.3-client', 'core-1.4-client'],
+		sets: ['1.2', 'core-1.3-base', 'core-1.3-client', 'core-1.4-base', 'core-1.4-client'],
 		source: ['core-1.4-base', 'core-1.4-client']
+	},
+	'core-1.4-nocompat': {
+		sets: ['core-1.3-base', 'core-1.3-client', 'core-1.4-base-nocompat', 'core-1.4-client'],
+		source: ['1.4nocompat']
 	},
 	'core-2.0': {
 		sets: ['core-2.0-base', 'core-2.0-client'],
@@ -83,6 +87,13 @@ Configuration.sets = {
 			'Fx/Fx.Morph',
 			'Utilities/Cookie',
 			'Utilities/JSON'
+		]
+	},
+
+	'core-1.4-base-nocompat': {
+		path: '1.4base/',
+		files: [
+			'Types/Function-nocompat'
 		]
 	},
 
@@ -259,6 +270,11 @@ Configuration.source = {
 	'1.3mobile': {
 		path: './',
 		files: ['mootools-core-mobile']
+	},
+
+	'1.4nocompat': {
+		path: './',
+		files: ['mootools-core-nocompat']
 	},
 
 	'core-2.0-base': {
