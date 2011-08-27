@@ -71,6 +71,51 @@ describe('Element', function(){
 
 	});
 
+	describe('Element.set', function(){
+
+		describe('value', function(){
+
+			it('set the value of a select element', function(){
+				var form = new Element('form');
+				form.set('html', '<select multiple>\
+					<option value="one">value 1</option>\
+					<option selected value="two">value 2</option>\
+					</select>');
+				var select = form.firstChild;
+				select.set('value', 'one');
+				expect(select.get('value')).toEqual('one');
+			});
+
+			it('should not change the value if it is not matched in one of the options', function(){
+				var form = new Element('form');
+				form.set('html', '<select multiple>\
+					<option value="one">value 1</option>\
+					<option selected value="two">value 2</option>\
+					</select>');
+				var select = form.firstChild;
+				select.set('value', 'nonexistent');
+				expect(select.get('value')).toEqual('two');
+			});
+
+			it('should set the value of a select element where the options do not have a value attribute', function(){
+				var form = new Element('form');
+				form.set('html', '<select>\
+					<option>value 1</option>\
+					<option>value 2</option>\
+					<option selected>value 3</option>\
+					<option>value 4</option>\
+					</select>');
+				var select = $(form.firstChild);
+				select.set('value', 'value 4');
+				var options = select.getElements('option');
+				expect(options[2].selected).toEqual(false);
+				expect(options[3].selected).toEqual(true);
+			});
+
+		});
+
+	});
+
 	describe('tabIndex', function(){
 
 		it('should get and set the correct tabIndex', function(){
